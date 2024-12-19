@@ -1,31 +1,44 @@
 apiVersion: grsf.grpl.io/v1alpha1
 kind: GrappleApplicationSet
 metadata:
-  name: gras-db-file
-  namespace: grpl-db-file
+  name: gras-mysql
+  namespace: grpl-mdl-ext
 spec:
   grapis:
-  - name: gras-db-file
+  - name: gras-mysql
     spec:
+      automigrate: true
       datasources:
-      - name: db
+      - name: classicmodelsid
         spec:
-          memory:
-            connector: memory
-            file: /tmp/data.json
-            localStorage: db
-            name: db
-      discoveredrepos: true
+          mysql:
+            database: classicmodelsid
+            host: \$(host)
+            name: classicmodelsid
+            password: \$(password)
+            port: \$(port)
+            url: ""
+            user: \$(username)
+      extraSecrets:
+      - gras-mysql-conn-credential
       ingress: true
       initContainers:
-      - name: test
+      - name: init-db
         spec:
           command:
-          - sh
+          - bash
           - -c
-          - if ! test -f /tmp/data.json; then wget -O /tmp/data.json https://raw.githubusercontent.com/grapple-solutions/grapple-test-data/main/classicmodelsid/db.json;
-            chmod 777 /tmp/data.json; fi
-          image: busybox:1.28
+          - sleep 5; while ! mysql -h \$(host) -P \$(port) -u \$(username) -p\$(password)
+            -e "show databases;" 2>/dev/null; do echo -n .; sleep 2; done; if mysql
+            -h \$(host) -P \$(port) -u \$(username) -p\$(password) -e "USE classicmodelsid;
+            SET @tablename := (select table_name from information_schema.tables where
+            table_type = 'BASE TABLE' and table_schema = 'classicmodelsid' limit 1);
+            set @qry1:= concat('select * from ',@tablename,' limit 1'); prepare stmt
+            from @qry1 ; execute stmt ;" ; then echo "database already exists...";
+            else curl -o /tmp/classicmodelsid.sql https://raw.githubusercontent.com/grapple-solutions/grapple-test-data/main/classicmodelsid/classicmodelsid.sql;
+            mysql -h \$(host) -P \$(port) -u \$(username) -p\$(password) < /tmp/classicmodelsid.sql;
+            fi;
+          image: mysql
           name: init-db
       models:
       - name: customer
@@ -93,19 +106,13 @@ spec:
               required: true
               type: number
       restcruds:
-      - name: restcrud
+      - name: classicmodelsid
         spec:
-          datasource: db
-      volumeMounts:
-      - mountPath: /data
-        name: data
-      volumes:
-      - emptyDir: {}
-        name: data
+          datasource: classicmodelsid
   gruims:
-  - name: gras-db-file
+  - name: gras-mysql
     spec:
       additionalpackages: ""
       config: ""
-      style: '{"colors":{"primary":{"DEFAULT":"#34344A","fg":"#fff"},"accent":{"DEFAULT":"#CC5A71","fg":"#fff"}}}'
-  name: gras-db-file
+      style: '{"colors":{"primary":{"DEFAULT":"#004a99","fg":"#ffffff"},"accent":{"DEFAULT":"#fa7252","fg":"#ffffff"}}}'
+  name: gras-mysql
