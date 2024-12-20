@@ -12,12 +12,12 @@ spec:
         spec:
           mysql:
             database: classicmodelsid
-            host: \$(host)
+            host: $(host)
             name: classicmodelsid
-            password: \$(password)
-            port: \$(port)
+            password: $(password)
+            port: $(port)
             url: ""
-            user: \$(username)
+            user: $(username)
       discoveredrepos: true
       discoveries:
       - name: classicmodelsid
@@ -35,15 +35,15 @@ spec:
           command:
           - bash
           - -c
-          - sleep 5; while ! mysql -h \$(host) -P \$(port) -u \$(username) -p\$(password)
+          - sleep 5; while ! mysql -h $(host) -P $(port) -u $(username) -p$(password)
             -e "show databases;" 2>/dev/null; do echo -n .; sleep 2; done; if mysql
-            -h \$(host) -P \$(port) -u \$(username) -p\$(password) -e "USE classicmodelsid;
+            -h $(host) -P $(port) -u $(username) -p$(password) -e "USE classicmodelsid;
             SET @tablename := (select table_name from information_schema.tables where
             table_type = 'BASE TABLE' and table_schema = 'classicmodelsid' limit 1);
             set @qry1:= concat('select * from ',@tablename,' limit 1'); prepare stmt
             from @qry1 ; execute stmt ;" ; then echo "database already exists...";
             else curl -o /tmp/classicmodelsid.sql https://raw.githubusercontent.com/grapple-solutions/grapple-test-data/main/classicmodelsid/classicmodelsid.sql;
-            mysql -h \$(host) -P \$(port) -u \$(username) -p\$(password) < /tmp/classicmodelsid.sql;
+            mysql -h $(host) -P $(port) -u $(username) -p$(password) < /tmp/classicmodelsid.sql;
             fi;
           image: mysql
           name: init-db
