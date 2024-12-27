@@ -2,6 +2,7 @@ apiVersion: grsf.grpl.io/v1alpha1
 kind: GrappleApplicationSet
 metadata:
   name: grplcache
+  namespace: grpl-cache-redis
 spec:
   name: grplcache
   grapis:
@@ -52,6 +53,7 @@ apiVersion: apps.kubeblocks.io/v1alpha1
 kind: Cluster
 metadata:
   name: grplcache
+  namespace: grpl-cache-redis
 spec:
   clusterDefinitionRef: redis
   clusterVersionRef: redis-7.0.6
