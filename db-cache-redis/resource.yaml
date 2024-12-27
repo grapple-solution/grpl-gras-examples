@@ -1,0 +1,89 @@
+apiVersion: grsf.grpl.io/v1alpha1
+kind: GrappleApplicationSet
+metadata:
+  name: grplcache
+spec:
+  name: grplcache
+  grapis:
+  - name: grplcache
+    spec:
+      # imagetag: 0.2.9
+      datasources:
+      - name: rediscache
+        spec:
+          kv-redis:
+            db: "0"
+            host: $(host)
+            name: rediscache
+            password: $(password)
+            port: $(port)
+            url: ""
+            #user: $(username)
+      discoveredrepos: false
+      extraSecrets:
+      - grplcache-conn-credential
+      ingress: true
+      openapis:
+      - name: cm
+        spec:
+          url: https://jcs-bo-dev-jcs-bo-devas-as.uat.cloud20x.com/openapi.json
+          prefix: cm
+          client: true
+      cacheconfigs:
+      - name: cmcache
+        spec:
+          openApis: cm
+          redisDS: rediscache
+          cacheTTL: 300000
+      autoscaling:
+        minReplicas: 3
+  gruims:
+  - name: grplcache
+    spec:
+      uiimagetag: 0.2.9
+      additionalpackages: ""
+      config: ""
+      style: '{"colors":{"primary":{"DEFAULT":"#004a99","fg":"#ffffff"},"accent":{"DEFAULT":"#fa7253","fg":"#ffffff"}}}'
+      autoscaling:
+        minReplicas: 3
+
+---
+apiVersion: apps.kubeblocks.io/v1alpha1
+kind: Cluster
+metadata:
+  name: grplcache
+spec:
+  clusterDefinitionRef: redis
+  clusterVersionRef: redis-7.0.6
+  terminationPolicy: Delete
+  affinity:
+    podAntiAffinity: Preferred
+    topologyKeys:
+    - kubernetes.io/hostname
+  tolerations:
+    - key: kb-data
+      operator: Equal
+      value: 'true'
+      effect: NoSchedule
+  componentSpecs:
+  - name: redis
+    componentDefRef: redis
+    replicas: 1
+    enabledLogs:
+    - running
+    serviceAccountName: kb-redis-cluster
+    resources:
+      limits:
+        cpu: '2'
+        memory: 4Gi
+      requests:
+        cpu: '0.5'
+        memory: 0.5Gi
+    volumeClaimTemplates:
+    - name: data
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 20Gi
