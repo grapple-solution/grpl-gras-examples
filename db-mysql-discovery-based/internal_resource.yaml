@@ -76,7 +76,7 @@ spec:
 apiVersion: apps.kubeblocks.io/v1alpha1
 kind: Cluster
 metadata:
-  name: grappledb
+  name: gras-mysql
   namespace: grpl-disc-int
 spec:
   clusterDefinitionRef: apecloud-mysql
