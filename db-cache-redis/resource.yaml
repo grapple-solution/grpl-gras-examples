@@ -41,7 +41,7 @@ spec:
   gruims:
   - name: grplcache
     spec:
-      uiimagetag: 0.2.9
+      # uiimagetag: 0.2.9
       additionalpackages: ""
       config: ""
       style: '{"colors":{"primary":{"DEFAULT":"#004a99","fg":"#ffffff"},"accent":{"DEFAULT":"#fa7253","fg":"#ffffff"}}}'
