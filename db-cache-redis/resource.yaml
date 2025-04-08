@@ -8,7 +8,7 @@ spec:
   grapis:
   - name: grplcache
     spec:
-      # imagetag: 0.2.9
+      imagetag: 0.2.9
       datasources:
       - name: rediscache
         spec:
@@ -37,16 +37,16 @@ spec:
           redisDS: rediscache
           cacheTTL: 300000
       autoscaling:
-        minReplicas: 3
+        minReplicas: 1
   gruims:
   - name: grplcache
     spec:
-      # uiimagetag: 0.2.9
+      uiimagetag: 0.2.9
       additionalpackages: ""
       config: ""
       style: '{"colors":{"primary":{"DEFAULT":"#004a99","fg":"#ffffff"},"accent":{"DEFAULT":"#fa7253","fg":"#ffffff"}}}'
       autoscaling:
-        minReplicas: 3
+        minReplicas: 1
 
 ---
 apiVersion: apps.kubeblocks.io/v1alpha1
