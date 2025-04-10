@@ -27,7 +27,7 @@ spec:
       openapis:
       - name: cm
         spec:
-          url: https://jcs2323-uat-jcs-uat-jcs-grapi.nop.grpl.io/openapi.json
+          url: https://jcs-uat-jcs-uat-jcs-grapi.nop.grpl.io/openapi.json
           prefix: cm
           client: true
       cacheconfigs:
