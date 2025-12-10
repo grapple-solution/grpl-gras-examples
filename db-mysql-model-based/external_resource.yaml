@@ -117,7 +117,7 @@ spec:
       style: '{"colors":{"primary":{"DEFAULT":"#004a99","fg":"#ffffff"},"accent":{"DEFAULT":"#fa7252","fg":"#ffffff"}}}'
   name: gras-mysql
 
-  ---
+---
 # internal db manifest
 apiVersion: apps.kubeblocks.io/v1alpha1
 kind: Cluster
