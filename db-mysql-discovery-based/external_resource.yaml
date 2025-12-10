@@ -67,3 +67,35 @@ spec:
       config: ""
       style: '{"colors":{"primary":{"DEFAULT":"#004a99","fg":"#ffffff"},"accent":{"DEFAULT":"#fa7252","fg":"#ffffff"}}}'
   name: gras-mysql
+
+
+---
+# internal db manifest
+apiVersion: apps.kubeblocks.io/v1alpha1
+kind: Cluster
+metadata:
+  name: gras-mysql
+  namespace: grpl-disc-ext
+spec:
+  clusterDefinitionRef: apecloud-mysql
+  clusterVersionRef: ac-mysql-8.0.30
+  componentSpecs:
+  - componentDefRef: mysql
+    name: mysql
+    replicas: 1
+    resources:
+      limits:
+        cpu: "1"
+        memory: 1Gi
+      requests:
+        cpu: "0.5"
+        memory: 500Mi
+    volumeClaimTemplates:
+    - name: data
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 20Gi
+  terminationPolicy: Delete
