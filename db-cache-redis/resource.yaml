@@ -8,7 +8,8 @@ spec:
   grapis:
   - name: grplcache
     spec:
-      imagetag: 0.2.9
+      beimage: grpl/loopback
+      beimagetag: 0.3.13
       datasources:
       - name: rediscache
         spec:
@@ -41,7 +42,8 @@ spec:
   gruims:
   - name: grplcache
     spec:
-      uiimagetag: 0.2.9
+      uiimage: grpl/gruim
+      uiimagetag: 0.3.5
       additionalpackages: ""
       config: ""
       style: '{"colors":{"primary":{"DEFAULT":"#004a99","fg":"#ffffff"},"accent":{"DEFAULT":"#fa7253","fg":"#ffffff"}}}'
