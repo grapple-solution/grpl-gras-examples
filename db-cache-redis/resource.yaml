@@ -25,15 +25,15 @@ spec:
       - grplcache-conn-credential
       ingress: true
       openapis:
-      - name: cm
+      - name: aladv
         spec:
-          url: https://jcs-uat-jcs-uat-jcs-grapi.nop.grpl.io/openapi.json
-          prefix: cm
+          url: https://aladv-uat-aladv-uat-aladv-grasfe-grapi.prd.grapple-solutions.com/openapi.json
+          prefix: aladv
           client: true
       cacheconfigs:
-      - name: cmcache
+      - name: aladvcache
         spec:
-          openApis: cm
+          openApis: aladv
           redisDS: rediscache
           cacheTTL: 300000
       autoscaling:
