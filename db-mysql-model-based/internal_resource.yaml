@@ -60,7 +60,7 @@ spec:
             id:
               generated: true
               id: true
-              required: true
+              required: false
               type: number
       - name: email
         spec:
@@ -76,7 +76,7 @@ spec:
             id:
               generated: true
               id: true
-              required: true
+              required: false
               type: number
       - name: cluster
         spec:
@@ -103,7 +103,7 @@ spec:
             id:
               generated: true
               id: true
-              required: true
+              required: false
               type: number
       restcruds:
       - name: classicmodelsid
