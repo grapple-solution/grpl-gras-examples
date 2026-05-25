@@ -1,12 +1,12 @@
 apiVersion: grsf.grpl.io/v1alpha1
 kind: GrappleApplicationSet
 metadata:
-  name: grplcache
+  name: grpl-cache-redis-grplcache
   namespace: grpl-cache-redis
 spec:
-  name: grplcache
+  name: grpl-cache-redis-grplcache
   grapis:
-  - name: grplcache
+  - name: grpl-cache-redis-grplcache
     spec:
       beimage: grpl/loopback
       beimagetag: 0.3.13
@@ -23,7 +23,7 @@ spec:
             #user: $(username)
       discoveredrepos: false
       extraSecrets:
-      - grplcache-conn-credential
+      - grpl-cache-redis-grplcache-conn-credential
       ingress: true
       openapis:
       - name: aladv
@@ -40,13 +40,13 @@ spec:
       autoscaling:
         minReplicas: 1
   gruims:
-  - name: grplcache
+  - name: grpl-cache-redis-grplcache
     spec:
       uiimage: grpl/gruim
       uiimagetag: 0.3.5
       additionalpackages: ""
       config: ""
-      style: '{"colors":{"primary":{"DEFAULT":"#004a99","fg":"#ffffff"},"accent":{"DEFAULT":"#fa7253","fg":"#ffffff"}}}'
+      style: '{"colors":{"primary":{"DEFAULT":"#004a99","fg":"#ffffff"},"accent":{"DEFAULT":"#fa7252","fg":"#ffffff"}}}'
       autoscaling:
         minReplicas: 1
 
@@ -54,7 +54,7 @@ spec:
 apiVersion: apps.kubeblocks.io/v1alpha1
 kind: Cluster
 metadata:
-  name: grplcache
+  name: grpl-cache-redis-grplcache
   namespace: grpl-cache-redis
 spec:
   clusterDefinitionRef: redis

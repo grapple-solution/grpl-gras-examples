@@ -1,11 +1,11 @@
 apiVersion: grsf.grpl.io/v1alpha1
 kind: GrappleApplicationSet
 metadata:
-  name: gras-db-file
+  name: grpl-db-file-gras-db-file
   namespace: grpl-db-file
 spec:
   grapis:
-  - name: gras-db-file
+  - name: grpl-db-file-gras-db-file
     spec:
       datasources:
       - name: db
@@ -103,9 +103,9 @@ spec:
       - emptyDir: {}
         name: data
   gruims:
-  - name: gras-db-file
+  - name: grpl-db-file-gras-db-file
     spec:
       additionalpackages: ""
       config: ""
       style: '{"colors":{"primary":{"DEFAULT":"#34344A","fg":"#fff"},"accent":{"DEFAULT":"#CC5A71","fg":"#fff"}}}'
-  name: gras-db-file
+  name: grpl-db-file-gras-db-file

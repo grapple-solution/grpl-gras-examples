@@ -1,11 +1,11 @@
 apiVersion: grsf.grpl.io/v1alpha1
 kind: GrappleApplicationSet
 metadata:
-  name: gras-mysql
+  name: grpl-mdl-ext-gras-mysql
   namespace: grpl-mdl-ext
 spec:
   grapis:
-  - name: gras-mysql
+  - name: grpl-mdl-ext-gras-mysql
     spec:
       automigrate: true
       datasources:
@@ -20,7 +20,7 @@ spec:
             url: ""
             user: $(username)
       extraSecrets:
-      - gras-mysql-conn-credential
+      - grpl-mdl-ext-gras-mysql-conn-credential
       ingress: true
       initContainers:
       - name: init-db
@@ -110,19 +110,19 @@ spec:
         spec:
           datasource: classicmodelsid
   gruims:
-  - name: gras-mysql
+  - name: grpl-mdl-ext-gras-mysql
     spec:
       additionalpackages: ""
       config: ""
       style: '{"colors":{"primary":{"DEFAULT":"#004a99","fg":"#ffffff"},"accent":{"DEFAULT":"#fa7252","fg":"#ffffff"}}}'
-  name: gras-mysql
+  name: grpl-mdl-ext-gras-mysql
 
 ---
 # internal db manifest
 apiVersion: apps.kubeblocks.io/v1alpha1
 kind: Cluster
 metadata:
-  name: gras-mysql
+  name: grpl-mdl-ext-gras-mysql
   namespace: grpl-mdl-ext
 spec:
   clusterDefinitionRef: apecloud-mysql
