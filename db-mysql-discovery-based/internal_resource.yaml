@@ -27,11 +27,21 @@ spec:
           disableCamelCase: false
           schema: classicmodelsid
       extraSecrets:
-      - grpl-disc-int-gras-mysql-conn-credential
+      - grpl-disc-int-gras-mysql-mysql-account-root
+      env:
+      - name: host
+        value: "grpl-disc-int-gras-mysql-mysql"
+      - name: port
+        value: "3306"
       ingress: true
       initContainers:
       - name: init-db
         spec:
+          env:
+          - name: host
+            value: "grpl-disc-int-gras-mysql-mysql"
+          - name: port
+            value: "3306"
           command:
           - bash
           - -c
@@ -68,22 +78,22 @@ spec:
       style: '{"colors":{"primary":{"DEFAULT":"#004a99","fg":"#ffffff"},"accent":{"DEFAULT":"#fa7252","fg":"#ffffff"}}}'
   name: grpl-disc-int-gras-mysql
 
-
-
-
 ---
 # internal db manifest
-apiVersion: apps.kubeblocks.io/v1alpha1
+apiVersion: apps.kubeblocks.io/v1
 kind: Cluster
 metadata:
   name: grpl-disc-int-gras-mysql
   namespace: grpl-disc-int
+  annotations:
+    helm.sh/resource-policy: keep
 spec:
-  clusterDefinitionRef: apecloud-mysql
-  clusterVersionRef: ac-mysql-8.0.30
+  clusterDef: apecloud-mysql
+  topology: apecloud-mysql
+  terminationPolicy: Delete
   componentSpecs:
-  - componentDefRef: mysql
-    name: mysql
+  - name: mysql
+    serviceVersion: 8.0.30
     replicas: 1
     resources:
       limits:
@@ -100,4 +110,3 @@ spec:
         resources:
           requests:
             storage: 20Gi
-  terminationPolicy: Delete

@@ -23,7 +23,12 @@ spec:
             #user: $(username)
       discoveredrepos: false
       extraSecrets:
-      - grpl-cache-redis-grplcache-conn-credential
+      - grpl-cache-redis-grplcache-redis-account-default
+      env:
+      - name: host
+        value: "grpl-cache-redis-grplcache-redis"
+      - name: port
+        value: "6379"
       ingress: true
       openapis:
       - name: aladv
@@ -51,31 +56,36 @@ spec:
         minReplicas: 1
 
 ---
-apiVersion: apps.kubeblocks.io/v1alpha1
+apiVersion: apps.kubeblocks.io/v1
 kind: Cluster
 metadata:
   name: grpl-cache-redis-grplcache
   namespace: grpl-cache-redis
+  annotations:
+    helm.sh/resource-policy: keep
 spec:
-  clusterDefinitionRef: redis
-  clusterVersionRef: redis-7.0.6
+  clusterDef: redis
+  topology: standalone
   terminationPolicy: Delete
-  affinity:
-    podAntiAffinity: Preferred
-    topologyKeys:
-    - kubernetes.io/hostname
-  tolerations:
-    - key: kb-data
-      operator: Equal
-      value: 'true'
-      effect: NoSchedule
   componentSpecs:
   - name: redis
-    componentDefRef: redis
+    serviceVersion: 7.0.6
     replicas: 1
-    enabledLogs:
-    - running
-    serviceAccountName: kb-redis-cluster
+    schedulingPolicy:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/instance: grpl-cache-redis-grplcache
+                topologyKey: kubernetes.io/hostname
+      tolerations:
+        - key: kb-data
+          operator: Equal
+          value: 'true'
+          effect: NoSchedule
     resources:
       limits:
         cpu: '2'
